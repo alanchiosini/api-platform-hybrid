@@ -1,0 +1,26 @@
+image:
+  repository: 473412377568.dkr.ecr.sa-east-1.amazonaws.com/api-crypto
+  tag: 4.1.0.0
+  pullPolicy: IfNotPresent
+properties:
+  javaOpts: "-Dlog4j2.formatMsgNoLookups=True -Djava.security.egd=file:/dev/./urandom -Xms350m -Xmx350m -XX:ParallelGCThreads=1 -XX:ConcGCThreads=1 -Djava.util.concurrent.ForkJoinPool.common.parallelism=1 -XX:CICompilerCount=2 -XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:MinHeapFreeRatio=20 -XX:MaxHeapFreeRatio=40 -XX:+ExitOnOutOfMemoryError"
+  redisHosts: "CHANGE_HERE" #Example "xxxxxxxxxx:xxxx". 
+  redisType: "CHANGE_HERE" #Example MASTER_SLAVE or CLUSTER (#depends on your redis setup)
+serviceMonitor:
+  enabled: true
+service:
+  type: ClusterIP
+resources:
+  limits:
+    cpu: 200m
+    memory: 600Mi
+  requests:
+    cpu: 50m
+    memory: 600Mi
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 6
+  averageUtilization: 80
+ingress:
+  enabled: false
